@@ -1,0 +1,149 @@
+@startchen
+
+
+entity Cliente {
+    id <<key>>
+    nombre
+    direccion {
+        calle
+        numero
+        localidad
+        provincia
+        pais
+    }
+    telefono
+    email
+}
+
+entity Reserva {
+    numero <<key>>
+    fecha
+}
+
+entity Estado {
+    id <<key>>
+    nombre
+}
+
+relationship Cambia {
+}
+
+Reserva =1= Cambia
+Estado -N- Cambia
+
+entity Pasajero {
+    id <<key>>
+    nombre
+    pasaporte
+}
+
+relationship Realiza {
+}
+
+Cliente -N- Realiza
+Reserva -1- Realiza
+Estado -1- Reserva
+
+relationship Tiene {
+}
+
+Reserva -N- Tiene
+Pasajero -N- Tiene
+
+entity Vuelo {
+    numero <<key>>
+    origen <<key>>
+    destino
+    aerolinea
+    fecha_origen <<key>>
+    precio
+}
+
+entity Hotel {
+    nombre <<key>>
+    direccion <<key>>
+    estrellas
+    tipo_habitacion
+    precio
+}
+
+entity Disponibilidad {
+    id <<key>>
+    fecha_desde
+    fecha_hasta
+    cantidad
+}
+
+relationship Dispone {
+}
+
+Hotel -N- Dispone
+Disponibilidad -1- Dispone
+
+entity Paquete {
+    id <<key>>
+    nombre
+    descripcion
+    precio_total
+}
+
+entity Ciudad {
+    nombre <<key>>
+    codigo_postal <<key>>
+}
+
+relationship Visita {
+}
+
+relationship Compone {
+}
+
+Vuelo -(1,N)- Compone
+Hotel -(1,N)- Compone
+Paquete -(0,N)- Compone
+
+Paquete -(1,N)- Visita
+Ciudad -(0,N)- Visita
+
+entity Pais {
+    nombre <<key>>
+    codigo <<key>>
+    continente
+}
+
+relationship Esta_En {
+}
+
+Ciudad -1- Esta_En
+Pais -1- Esta_En
+
+entity Servicio {
+}
+
+Servicio =>= d { Vuelo, Hotel, Paquete }
+
+relationship Contiene {
+}
+
+Reserva -(1,N)- Contiene
+Servicio -(0,N)- Contiene
+
+entity Pago {
+    id <<key>>
+    metodo
+    monto
+    fecha
+    estado
+}
+
+relationship Registra {
+}
+
+Cliente -(0,N)- Registra
+Pago -1- Registra
+
+
+
+
+
+@endchen
