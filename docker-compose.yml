@@ -44,5 +44,6 @@ services:
       - type: bind
         source: ./data
         target: /data/db
+      - ./scripts/mongo/init-mongo-db-with-collections.js:/docker-entrypoint-initdb.d/init-mongo-db-with-collections.js:ro
 volumes:
   db_data:

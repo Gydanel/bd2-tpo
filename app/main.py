@@ -45,7 +45,13 @@ async def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
     return new_user
 
-@app.get("/test")
+@app.get(
+    path="/test",
+    response_description="Get a single student",
+    response_model=schemas.ExampleCollection,
+    response_model_by_alias=False,
+)
 async def test(mongodb: AsyncIOMotorDatabase = Depends(mongo.database)):
-    await mongodb.client.admin.command("ping")
-    return { "result": "MongoDB connection successful" }
+    await mongodb.get_collection("example").insert_one({"test": "data"})
+    result = await mongodb.get_collection("example").find().to_list()
+    return schemas.ExampleCollection(examples=result)
