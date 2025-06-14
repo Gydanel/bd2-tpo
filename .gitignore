@@ -172,3 +172,32 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+/data/.mongodb/mongosh/684d651e580ea00f65c59f34_log
+/data/.mongodb/mongosh/684d651fde379161aac59f34_log
+/data/.mongodb/mongosh/684d6521819b773cbec59f34_log
+/data/_mdb_catalog.wt
+/data/collection-0--4788390220246076871.wt
+/data/collection-2--4788390220246076871.wt
+/data/collection-4--4788390220246076871.wt
+/data/collection-7--4788390220246076871.wt
+/data/.mongodb/mongosh/config
+/data/index-1--4788390220246076871.wt
+/data/index-3--4788390220246076871.wt
+/data/index-5--4788390220246076871.wt
+/data/index-6--4788390220246076871.wt
+/data/index-8--4788390220246076871.wt
+/data/index-9--4788390220246076871.wt
+/data/diagnostic.data/metrics.2025-06-14T12-03-43Z-00000
+/data/diagnostic.data/metrics.2025-06-14T12-03-48Z-00000
+/data/diagnostic.data/metrics.interim
+/data/mongod.lock
+/data/sizeStorer.wt
+/data/storage.bson
+/data/WiredTiger
+/data/WiredTiger.lock
+/data/WiredTiger.turtle
+/data/WiredTiger.wt
+/data/WiredTigerHS.wt
+/data/journal/WiredTigerLog.0000000002
+/data/journal/WiredTigerPreplog.0000000001
+/data/journal/WiredTigerPreplog.0000000002
