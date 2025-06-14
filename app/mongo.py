@@ -13,3 +13,6 @@ def database() -> AsyncIOMotorDatabase:
 
 def users() -> AsyncIOMotorCollection:
     return database().get_collection('users')
+
+def empleos() -> AsyncIOMotorCollection:
+    return database().get_collection('empleos')

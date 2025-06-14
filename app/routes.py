@@ -6,6 +6,9 @@ from fastapi import APIRouter, Depends
 from motor.motor_asyncio import AsyncIOMotorCollection
 from sqlalchemy.orm import Session
 from starlette import status
+from typing import List, Dict
+from app.mongo import empleos  # o solo 'import mongo' si usás mongo.empleos()
+
 
 import schemas, models, mongo
 import dependencies
@@ -62,3 +65,16 @@ async def total_registered_users_by_year(
 ):
     result = await users_collection.find().to_list()
     return schemas.UserDocumentCollection(users=result)
+
+@router.get("/empleos/habilidades-mas-solicitadas", response_model=List[Dict[str, int]])
+async def habilidades_mas_solicitadas():
+    pipeline = [
+        {"$unwind": "$habilidades"},
+        {"$group": {"_id": "$habilidades", "cantidad": {"$sum": 1}}},
+        {"$sort": {"cantidad": -1}}
+    ]
+    cursor = empleos().aggregate(pipeline)
+    resultados = []
+    async for doc in cursor:
+        resultados.append({"habilidad": doc["_id"], "cantidad": doc["cantidad"]})
+    return resultados
