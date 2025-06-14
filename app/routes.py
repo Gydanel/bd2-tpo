@@ -8,6 +8,9 @@ from sqlalchemy.orm import Session
 from starlette import status
 from typing import List, Dict
 from app.mongo import empleos  # o solo 'import mongo' si usás mongo.empleos()
+from sqlalchemy.orm import Session
+from sqlalchemy import func
+from fastapi import Depends
 
 
 import schemas, models, mongo
@@ -78,3 +81,19 @@ async def habilidades_mas_solicitadas():
     async for doc in cursor:
         resultados.append({"habilidad": doc["_id"], "cantidad": doc["cantidad"]})
     return resultados
+
+@router.get("/usecase/empresas-activas")
+async def empresas_que_mas_contratan(
+    mysqldb: Session = Depends(dependencies.get_mysql_db)
+):
+    resultados = (
+        mysqldb.query(
+            models.Company.name.label("empresa"),
+            func.count(models.Job.id).label("cantidad_empleos")
+        )
+        .join(models.Job, models.Job.company_id == models.Company.id)
+        .group_by(models.Company.name)
+        .order_by(func.count(models.Job.id).desc())
+        .all()
+    )
+    return [{"empresa": r.empresa, "cantidad_empleos": r.cantidad_empleos} for r in resultados]
