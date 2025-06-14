@@ -1,4 +1,4 @@
-from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
+from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase, AsyncIOMotorCollection
 from pymongo.server_api import ServerApi
 import os
 
@@ -7,5 +7,9 @@ MONGO_URL = os.getenv("MONGO_URL")
 client = AsyncIOMotorClient(MONGO_URL, server_api=ServerApi('1'))
 
 
-async def database() -> AsyncIOMotorDatabase:
+def database() -> AsyncIOMotorDatabase:
     return client.get_database('tpo')
+
+
+def users() -> AsyncIOMotorCollection:
+    return database().get_collection('users')

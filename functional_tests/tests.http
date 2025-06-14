@@ -6,15 +6,21 @@ GET http://0.0.0.0:8000/
 
 GET http://0.0.0.0:8000/test
 
-###
+### Create User
 
 POST http://127.0.0.1:8000/users
 Content-Type: application/json
 
 {
   "name": "test",
-  "email": "2"
+  "email": "cadaf"
 }
 
-###
+### Get All Users
+GET http://127.0.0.1:8000/users
 
+### Usecase ¿Cuántos usuarios se han registrado en LinkedIn en el último año?
+GET http://0.0.0.0:8000/usecase/total
+
+### Get All Users
+GET http://127.0.0.1:8000/usecase/dos
