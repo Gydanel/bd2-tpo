@@ -9,8 +9,7 @@ Otra alternativa es verificar si tu IDE o Editor de texto tiene un plugin para p
 
 
 ### 
-docker
+docker compose
 ```
-docker build -t fastapi-app .
-docker run -d -p 8000:8000 fastapi-app
+docker-compose up --build 
 ```
