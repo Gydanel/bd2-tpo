@@ -3,8 +3,7 @@ from sqlalchemy import ForeignKey, String, Text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import JSONB
 from typing import Optional
-
-Base = declarative_base()
+from mysql import Base
 
 # Tabla de usuarios
 class User(Base):
