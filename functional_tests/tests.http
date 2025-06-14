@@ -12,15 +12,44 @@ POST http://127.0.0.1:8000/users
 Content-Type: application/json
 
 {
-  "name": "test",
-  "email": "cadaf"
+  "nombre": "Alan",
+  "email": "alan.FADF@gmail.com",
+  "foto_perfil": "image_url",
+  "telefono": "1234567890"
 }
 
 ### Get All Users
 GET http://127.0.0.1:8000/users
 
-### Usecase ¿Cuántos usuarios se han registrado en LinkedIn en el último año?
-GET http://0.0.0.0:8000/usecase/total
 
-### Get All Users
-GET http://127.0.0.1:8000/usecase/dos
+### Get All empresas
+GET http://127.0.0.1:8000/empresas
+
+### POST empresa
+POST http://127.0.0.1:8000/empresas
+Content-Type: application/json
+
+{
+  "nombre": "MELI",
+  "descripcion": "GALGHAKgjalsg",
+  "ubicacion": "Argentina"
+}
+
+### Get Empleos by empresa
+GET http://127.0.0.1:8000/empresas/1/empleos
+
+### POST Empleo
+POST http://127.0.0.1:8000/empresas/11/empleos
+Content-Type: application/json
+
+{
+  "titulo": "PROGRAMADOR",
+  "descripcion": "GALGHAKgjalsg",
+  "ubicacion": "Argentina",
+  "habilidades": ["Python", "FastAPI"]
+}
+### Usecase 1. ¿Cuántos usuarios se han registrado en LinkedIn en el último año?
+GET http://0.0.0.0:8000/usecase/one
+
+### Usecase 2. ¿Qué habilidades son más solicitadas en las ofertas de trabajo publicadas?
+GET http://127.0.0.1:8000/usecase/two

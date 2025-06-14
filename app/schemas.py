@@ -4,19 +4,22 @@ from typing import Optional, List, Annotated
 from bson import ObjectId
 from pydantic import BaseModel, ConfigDict, Field, BeforeValidator
 
-
 class UserCreate(BaseModel):
-    name: str
+    nombre: str
     email: str
+    foto_perfil: Optional[str]
+    telefono: Optional[str]
 
+class EmpresaCreate(BaseModel):
+    nombre: str
+    descripcion: Optional[str]
+    ubicacion: Optional[str]
 
-class UserRead(BaseModel):
-    id: int
-    name: str
-    email: str
-
-    class Config:
-        orm_mode = True
+class EmpleoCreate(BaseModel):
+    titulo: str
+    descripcion: Optional[str]
+    ubicacion: Optional[str]
+    habilidades: List[str]
 
 
 PyObjectId = Annotated[str, BeforeValidator(str)]

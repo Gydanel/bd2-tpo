@@ -9,6 +9,7 @@ import mongo, mysql, schemas, routes
 async def lifespan(fast_app: FastAPI):
     # Startup logic
     mysql.start_up()
+    await mongo.start_up()
     yield  # Wait for app shutdown
 
 app = FastAPI(

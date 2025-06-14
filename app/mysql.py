@@ -1,5 +1,5 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy import create_engine, text
+from sqlalchemy.orm import sessionmaker
 import os
 
 from models import Base
@@ -14,4 +14,15 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def start_up():
     Base.metadata.create_all(bind=engine)
+    init_script()
     print("✅ creadas las tablas")
+
+def init_script():
+    with engine.connect() as con:
+        with open("init.sql") as file:
+            sql_script = file.read()
+            for stmt in sql_script.split(";"):
+                stmt = stmt.strip()
+                if stmt:
+                    con.execute(text(stmt))
+            con.commit()
