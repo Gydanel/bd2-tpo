@@ -18,6 +18,7 @@ class EmpresaCreate(BaseModel):
 class EmpleoCreate(BaseModel):
     titulo: str
     descripcion: Optional[str]
+    categoria: Optional[str]
     ubicacion: Optional[str]
     habilidades: List[str]
 
@@ -34,31 +35,3 @@ class Job(BaseModel):
         json_encoders={ObjectId: str},
     )
 
-
-class UserDocument(BaseModel):
-    id: Optional[PyObjectId] = Field(alias="_id", default=None)
-    user_id: Optional[int] = None
-    registered_date: Optional[datetime] = None
-    model_config = ConfigDict(
-        arbitrary_types_allowed=True,
-    )
-
-class UserDocumentCollection(BaseModel):
-    users: List[UserDocument]
-
-    model_config = ConfigDict(
-        arbitrary_types_allowed=True,
-        json_encoders={ObjectId: str},
-    )
-
-class Example(BaseModel):
-    id: Optional[PyObjectId] = Field(alias="_id", default=None)
-    test: str
-    model_config = ConfigDict(
-        arbitrary_types_allowed=True,
-        json_encoders={ObjectId: str},
-    )
-
-
-class ExampleCollection(BaseModel):
-    examples: List[Example]

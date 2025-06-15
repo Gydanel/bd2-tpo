@@ -44,7 +44,10 @@ async def create_user(
     mysqldb.commit()
     mysqldb.refresh(new_user)
     await users_collection.insert_one(
-        schemas.UserDocument(user_id=new_user.id, registered_date=new_user.fecha_registro).model_dump()
+        {
+            "_id": user.id,
+            "fecha_registro": user.fecha_registro
+        }
     )
     return new_user
 
@@ -101,20 +104,21 @@ async def create_job(
         empresaId: int,
         empleo: schemas.EmpleoCreate,
         mysqldb: Session = Depends(dependencies.get_mysql_db),
-        users_collection: AsyncIOMotorCollection = Depends(mongo.users)
+        jobs_collection: AsyncIOMotorCollection = Depends(mongo.jobs)
 ):
 
     new_empresa=models.Empleo(
         titulo=empleo.titulo,
         descripcion=empleo.descripcion,
         ubicacion=empleo.ubicacion,
+        categoria=empleo.categoria,
         habilidades=','.join(empleo.habilidades),
         empresa_id=empresaId,
     )
     mysqldb.add(new_empresa)
     mysqldb.commit()
     mysqldb.refresh(new_empresa)
-    # await users_collection.insert_one(
+    # await jobs_collection.insert_one(
     #     schemas.UserDocument(user_id=new_job.id, registered_date=new_job.fecha_registro).model_dump()
     # )
     return new_empresa
@@ -125,7 +129,7 @@ async def total_registered_users_by_year(
 ):
     since = datetime.now() - relativedelta(years=1)
     result = await users_collection.count_documents({
-        "registered_date": {"$gte": since}
+        "fecha_registro": {"$gte": since}
     })
     return {"total_registered_users": result, "time": since}
 
@@ -138,5 +142,55 @@ async def habilidades_mas_solicitadas(
         {"$group": {"_id": "$habilidades", "count": { "$sum": 1 } } },
         {"$sort": {"count": -1}},
         {"$limit": 5}
+    ]).to_list()
+    return {"response": result }
+
+
+@router.get("/usecase/seven")
+async def habilidades_mas_solicitadas_en_marketing_o_tecnologia(
+        jobs_collection: AsyncIOMotorCollection = Depends(mongo.jobs)
+):
+    # result = await jobs_collection.aggregate([
+    #     {
+    #         "$match": {
+    #             "categoria": {"$in": ["Tecnología", "Marketing"]}
+    #         }
+    #     },
+    #     {"$unwind": "$habilidades"},
+    #     {"$group": {"_id": "categoria", "total": {"$sum": 1}}},
+    #     {"$sort": {"total": -1}}
+    # ]).to_list()
+    result = await jobs_collection.aggregate([
+        {
+            "$match": {
+                "categoria": {"$in": ["Tecnología", "Marketing"]}
+            }
+        },
+        {
+            "$group": {
+                "_id": "$categoria",
+                "habilidades": {
+                    "$addToSet": "$habilidades"
+                }
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "categoria": "$_id",
+                "habilidades": {
+                    "$reduce": {
+                        "input": "$habilidades",
+                        "initialValue": [],
+                        "in": {
+                            "$setUnion": [
+                                "$$value",
+                                "$$this"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
     ]).to_list()
     return {"response": result }

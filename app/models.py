@@ -31,6 +31,7 @@ class Empleo(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     titulo: Mapped[str] = mapped_column(String(100))
     descripcion: Mapped[Optional[str]] = mapped_column(Text)
+    categoria: Mapped[Optional[str]] = mapped_column(String(50))
     fecha_publicacion: Mapped[datetime] = mapped_column(default=datetime.now)
     ubicacion: Mapped[Optional[str]] = mapped_column(String(100))
     empresa_id: Mapped[int] = mapped_column(ForeignKey("empresas.id"))

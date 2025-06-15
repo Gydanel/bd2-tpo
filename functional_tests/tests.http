@@ -53,3 +53,7 @@ GET http://0.0.0.0:8000/usecase/one
 
 ### Usecase 2. ¿Qué habilidades son más solicitadas en las ofertas de trabajo publicadas?
 GET http://127.0.0.1:8000/usecase/two
+
+
+### Usecase 7. ¿Qué habilidades son solicitadas en ofertas de trabajo en tecnología O marketing?
+GET http://127.0.0.1:8000/usecase/seven

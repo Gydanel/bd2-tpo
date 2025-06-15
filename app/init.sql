@@ -25,16 +25,16 @@ VALUES
   (9, 'Legal Asesores', 'Servicios legales', 'Valladolid'),
   (10, 'Arte Digital', 'Diseño y arte digital', 'Málaga');
 
-REPLACE INTO empleos (id, titulo, descripcion, fecha_publicacion, ubicacion, empresa_id, habilidades)
+REPLACE INTO empleos (id, titulo, descripcion, fecha_publicacion, ubicacion, empresa_id, habilidades, categoria)
 VALUES
-  (1, 'Desarrollador Backend', 'Desarrollo de APIs y microservicios', NOW(), 'Remoto', 1, 'Python,SQL,Docker'),
-  (2, 'Analista de Datos', 'Análisis y visualización de datos', NOW(), 'Madrid', 2, 'Excel,PowerBI,SQL'),
-  (3, 'Contable', 'Gestión de cuentas y balances', NOW(), 'Valencia', 3, 'Python,Excel'),
-  (4, 'Profesor Online', 'Clases virtuales de matemáticas', NOW(), 'Remoto', 4, 'Python,Zoom'),
-  (5, 'Ingeniero Agrónomo', 'Optimización de cultivos', NOW(), 'Zaragoza', 5, 'Agronomía,Drones'),
-  (6, 'Consultor Ambiental', 'Evaluación de impacto ambiental', NOW(), 'Bilbao', 6, 'Medio Ambiente,Drones'),
-  (7, 'Jefe de Obra', 'Supervisión de proyectos de construcción', NOW(), 'Granada', 7, 'Gestión de Proyectos,Drones'),
-  (8, 'Agente de Viajes', 'Atención al cliente y reservas', NOW(), 'Alicante', 8, 'Atención al Cliente,Drones'),
-  (9, 'Abogado Junior', 'Asistencia legal y redacción de documentos', NOW(), 'Valladolid', 9, 'Derecho,Redacción'),
-  (10, 'Diseñador Gráfico', 'Creación de contenido digital', NOW(), 'Málaga', 10, 'Photoshop,Illustrator');
+  (1, 'Desarrollador Backend', 'Desarrollo de APIs y microservicios', NOW(), 'Remoto', 1, 'Python,SQL,Docker', 'Tecnología'),
+  (2, 'Analista de Datos', 'Análisis y visualización de datos', NOW(), 'Madrid', 2, 'Excel,PowerBI,SQL', 'Datos'),
+  (3, 'Contable', 'Gestión de cuentas y balances', NOW(), 'Valencia', 3, 'Python,Excel', 'Finanzas'),
+  (4, 'Profesor Online', 'Clases virtuales de matemáticas', NOW(), 'Remoto', 4, 'Python,Zoom', 'Marketing'),
+  (5, 'Ingeniero Agrónomo', 'Optimización de cultivos', NOW(), 'Zaragoza', 5, 'Agronomía,Drones', 'Marketing'),
+  (6, 'Consultor Ambiental', 'Evaluación de impacto ambiental', NOW(), 'Bilbao', 6, 'Medio Ambiente,Drones', 'Medio Ambiente'),
+  (7, 'Jefe de Obra', 'Supervisión de proyectos de construcción', NOW(), 'Granada', 7, 'Gestión de Proyectos,Drones', 'Construcción'),
+  (8, 'Agente de Viajes', 'Atención al cliente y reservas', NOW(), 'Alicante', 8, 'Atención al Cliente,Drones', 'Turismo'),
+  (9, 'Abogado Junior', 'Asistencia legal y redacción de documentos', NOW(), 'Valladolid', 9, 'Derecho,Redacción', 'Legal'),
+  (10, 'Diseñador Gráfico', 'Creación de contenido digital', NOW(), 'Málaga', 10, 'Photoshop,Illustrator', 'Diseño');
 SET FOREIGN_KEY_CHECKS=1; -- to re-enable them
