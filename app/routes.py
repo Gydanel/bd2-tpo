@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import neo4j
 from dateutil.relativedelta import relativedelta
 from fastapi import APIRouter, Depends, HTTPException
 from motor.motor_asyncio import AsyncIOMotorCollection
@@ -170,11 +171,15 @@ async def more_active_companies(
 
 @router.get("/usecase/four")
 async def recomendations_by_user(
-        neo: AsyncIOMotorCollection = Depends(dependencies.get_neo4j_db)
+        id: int,
+        neo: neo4j.Driver = Depends(dependencies.get_neo4j_db)
 ):
     with neo.session() as session:
-        result = session.run("RETURN 'Hello from Neo4j!' AS message")
-        return {"message": result.single()["message"]}
+        result = session.run("""
+            MATCH (:Empresa)-[r:RECOMMENDED]->(u:Usuario {id: $id})
+            RETURN count(r) AS recommendations_count
+        """, id=id)
+        return {"total": result.single()["recommendations_count"] }
 
 @router.get("/usecase/five")
 async def users_by_region(

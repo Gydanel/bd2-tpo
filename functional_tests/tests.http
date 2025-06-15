@@ -59,7 +59,7 @@ GET http://127.0.0.1:8000/usecase/three
 
 
 ### Usecase 4. ¿Cuántas recomendaciones ha recibido un usuario específico?
-GET http://127.0.0.1:8000/usecase/four
+GET http://127.0.0.1:8000/usecase/four?id=2
 
 
 ### Usecase 5. ¿Cuál es el crecimiento de usuarios en cada región geográfica?
