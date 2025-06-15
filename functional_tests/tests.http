@@ -67,7 +67,7 @@ GET http://127.0.0.1:8000/usecase/five
 
 
 ### Usecase 6. ¿Que usuarios tienen más de 500 conexiones Y tienen al menos 10 amigos en comun?
-GET http://127.0.0.1:8000/usecase/six
+GET http://127.0.0.1:8000/usecase/six?conn=4&friends=2
 
 
 ### Usecase 7. ¿Qué habilidades son solicitadas en ofertas de trabajo en tecnología O marketing?

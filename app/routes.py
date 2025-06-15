@@ -207,6 +207,27 @@ async def users_by_region(
     ]).to_list()
     return {"response": result }
 
+@router.get("/usecase/six")
+async def users_with_friends_and_conn(
+        conn: int,
+        friends: int,
+        neo: neo4j.Driver = Depends(dependencies.get_neo4j_db)
+):
+    with neo.session() as session:
+        result = session.run("""
+            MATCH (u:Usuario)-[:CONNECTED_TO]-(f:Usuario)
+            WITH u, count(f) AS total_connections
+            WHERE total_connections > $conn
+    
+            MATCH (u)-[:CONNECTED_TO]-(f1)-[:CONNECTED_TO]-(u2:Usuario)
+            WHERE u <> u2 AND (u)-[:CONNECTED_TO]-(u2)
+            WITH u, u2, count(DISTINCT f1) AS common_friends
+            WHERE common_friends >= $friends
+            RETURN DISTINCT u AS usuario, u2 As amigo
+        """, conn=conn, friends=friends).fetch(10)
+        return {"response": result }
+
+
 @router.get("/usecase/seven")
 async def habilidades_mas_solicitadas_en_marketing_o_tecnologia(
         jobs_collection: AsyncIOMotorCollection = Depends(mongo.jobs)

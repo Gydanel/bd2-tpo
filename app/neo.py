@@ -17,20 +17,23 @@ def start_up():
         usuarios = mydb.query(models.Usuario).all()
         for user in usuarios:
             session.run("""
-                MERGE (u:Usuario {id: $id, nombre: "$nombre" });
+                MERGE (u:Usuario {id: $id, nombre: $nombre });
             """, id=user.id, nombre=user.nombre)
         empresas = mydb.query(models.Empresa).all()
         for empresa in empresas:
             session.run("""
-                MERGE (e:Empresa {id: $id, nombre: "$nombre" });
+                MERGE (e:Empresa {id: $id, nombre: $nombre });
             """, id=empresa.id, nombre=empresa.nombre)
         print("✅ Neo4j nodes created")
         connections = [
             """MATCH (a:Usuario {id: 1}), (b:Usuario {id: 2}) MERGE (a)-[:CONNECTED_TO]->(b);""",
             """MATCH (a:Usuario {id: 1}), (b:Usuario {id: 3}) MERGE (a)-[:CONNECTED_TO]->(b);""",
             """MATCH (a:Usuario {id: 1}), (b:Usuario {id: 4}) MERGE (a)-[:CONNECTED_TO]->(b);""",
+            """MATCH (a:Usuario {id: 1}), (b:Usuario {id: 10}) MERGE (a)-[:CONNECTED_TO]->(b);""",
             """MATCH (a:Usuario {id: 3}), (b:Usuario {id: 2}) MERGE (a)-[:CONNECTED_TO]->(b);""",
             """MATCH (a:Usuario {id: 3}), (b:Usuario {id: 4}) MERGE (a)-[:CONNECTED_TO]->(b);""",
+            """MATCH (a:Usuario {id: 3}), (b:Usuario {id: 7}) MERGE (a)-[:CONNECTED_TO]->(b);""",
+            """MATCH (a:Usuario {id: 3}), (b:Usuario {id: 9}) MERGE (a)-[:CONNECTED_TO]->(b);""",
             """MATCH (a:Usuario {id: 4}), (b:Usuario {id: 7}) MERGE (a)-[:CONNECTED_TO]->(b);""",
             """MATCH (a:Usuario {id: 6}), (b:Usuario {id: 8}) MERGE (a)-[:CONNECTED_TO]->(b);""",
             """MATCH (a:Usuario {id: 7}), (b:Usuario {id: 9}) MERGE (a)-[:CONNECTED_TO]->(b);""",
