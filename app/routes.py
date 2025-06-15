@@ -145,21 +145,59 @@ async def habilidades_mas_solicitadas(
     ]).to_list()
     return {"response": result }
 
+@router.get("/usecase/three")
+async def more_active_companies(
+        jobs_collection: AsyncIOMotorCollection = Depends(mongo.jobs)
+):
+    result = await jobs_collection.aggregate([
+        {
+            "$match": {
+                "usuario_contratado": { "$exists": True}
+            }
+        },
+        {"$group": {"_id": "$empresa.nombre", "count": { "$sum": 1 } } },
+        {"$sort": {"count": -1}},
+        {"$limit": 5},
+        {
+            "$project": {
+                "_id": 0,
+                "empresa": "$_id",
+                "count": "$count"
+            }
+        }
+    ]).to_list()
+    return {"response": result }
+
+@router.get("/usecase/five")
+async def users_by_region(
+        users_collection: AsyncIOMotorCollection = Depends(mongo.users)
+):
+    result = await users_collection.aggregate([
+        {
+            "$group": {
+                "_id": {
+                    "region": "$region",
+                    "month": {"$substr": ["$fecha_registro", 0, 7]}
+                },
+                "total": {"$sum": 1}
+            }
+        },
+        {"$sort": {"_id.region": 1, "_id.month": 1} },
+        {
+            "$project": {
+                "_id": 0,
+                "region": "$_id.region",
+                "month": "$_id.month",
+                "total": "$total"
+            }
+        }
+    ]).to_list()
+    return {"response": result }
 
 @router.get("/usecase/seven")
 async def habilidades_mas_solicitadas_en_marketing_o_tecnologia(
         jobs_collection: AsyncIOMotorCollection = Depends(mongo.jobs)
 ):
-    # result = await jobs_collection.aggregate([
-    #     {
-    #         "$match": {
-    #             "categoria": {"$in": ["Tecnología", "Marketing"]}
-    #         }
-    #     },
-    #     {"$unwind": "$habilidades"},
-    #     {"$group": {"_id": "categoria", "total": {"$sum": 1}}},
-    #     {"$sort": {"total": -1}}
-    # ]).to_list()
     result = await jobs_collection.aggregate([
         {
             "$match": {

@@ -1,16 +1,17 @@
 SET FOREIGN_KEY_CHECKS=0; -- to disable them
-REPLACE INTO usuarios (id, nombre, email, foto_perfil, telefono, fecha_registro)
+
+REPLACE INTO usuarios (id, nombre, email, foto_perfil, telefono, fecha_registro, country)
 VALUES
-  (1, 'Ana López', 'ana.lopez@email.com', 'ana.jpg', '123456789', NOW()),
-  (2, 'Carlos Pérez', 'carlos.perez@email.com', NULL, NULL, NOW()),
-  (3, 'Lucía Gómez', 'lucia.gomez@email.com', 'lucia.jpg', '987654321', NOW()),
-  (4, 'Miguel Torres', 'miguel.torres@email.com', NULL, '555123456', NOW()),
-  (5, 'Sofía Ruiz', 'sofia.ruiz@email.com', 'sofia.jpg', NULL, NOW()),
-  (6, 'David Fernández', 'david.fernandez@email.com', NULL, '666777888', NOW()),
-  (7, 'Elena Martínez', 'elena.martinez@email.com', 'elena.jpg', '111222333', NOW()),
-  (8, 'Javier Sánchez', 'javier.sanchez@email.com', NULL, NULL, NOW()),
-  (9, 'María Castro', 'maria.castro@email.com', 'maria.jpg', '444555666', NOW()),
-  (10, 'Pedro Ramos', 'pedro.ramos@email.com', NULL, '777888999', NOW());
+  (1, 'Ana López', 'ana.lopez@email.com', 'ana.jpg', '123456789', NOW(), 'Spain'),
+  (2, 'Carlos Pérez', 'carlos.perez@email.com', NULL, NULL, NOW(), 'Mexico'),
+  (3, 'Lucía Gómez', 'lucia.gomez@email.com', 'lucia.jpg', '987654321', NOW(), 'Argentina'),
+  (4, 'Miguel Torres', 'miguel.torres@email.com', NULL, '555123456', NOW(), 'Chile'),
+  (5, 'Sofía Ruiz', 'sofia.ruiz@email.com', 'sofia.jpg', NULL, NOW(), 'Colombia'),
+  (6, 'David Fernández', 'david.fernandez@email.com', NULL, '666777888', NOW(), 'Peru'),
+  (7, 'Elena Martínez', 'elena.martinez@email.com', 'elena.jpg', '111222333', NOW(), 'Uruguay'),
+  (8, 'Javier Sánchez', 'javier.sanchez@email.com', NULL, NULL, NOW(), 'Ecuador'),
+  (9, 'María Castro', 'maria.castro@email.com', 'maria.jpg', '444555666', NOW(), 'Venezuela'),
+  (10, 'Pedro Ramos', 'pedro.ramos@email.com', NULL, '777888999', NOW(), 'Spain');
 
 REPLACE INTO empresas (id, nombre, descripcion, ubicacion)
 VALUES
@@ -37,4 +38,17 @@ VALUES
   (8, 'Agente de Viajes', 'Atención al cliente y reservas', NOW(), 'Alicante', 8, 'Atención al Cliente,Drones', 'Turismo'),
   (9, 'Abogado Junior', 'Asistencia legal y redacción de documentos', NOW(), 'Valladolid', 9, 'Derecho,Redacción', 'Legal'),
   (10, 'Diseñador Gráfico', 'Creación de contenido digital', NOW(), 'Málaga', 10, 'Photoshop,Illustrator', 'Diseño');
+
+REPLACE INTO aplicaciones_empleo (id, usuario_id, empleo_id, fecha_aplicacion, estado) VALUES
+  (1, 1, 1, NOW(), 'pendiente'),
+  (2, 2, 3, NOW(), 'aceptado'),
+  (3, 3, 2, NOW(), 'rechazado'),
+  (4, 4, 4, NOW(), 'pendiente'),
+  (5, 5, 5, NOW(), 'pendiente'),
+  (6, 6, 6, NOW(), 'aceptado'),
+  (7, 7, 7, NOW(), 'pendiente'),
+  (8, 8, 8, NOW(), 'rechazado'),
+  (9, 9, 9, NOW(), 'pendiente'),
+  (10, 10, 10, NOW(), 'aceptado');
+
 SET FOREIGN_KEY_CHECKS=1; -- to re-enable them

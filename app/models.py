@@ -15,6 +15,8 @@ class Usuario(Base):
     foto_perfil: Mapped[Optional[str]] = mapped_column(String(200), nullable=True)
     telefono: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)
     fecha_registro: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
+    country: Mapped[str] = mapped_column(String(100))
+    aplicaciones: Mapped[list["ApplicationAEmpleo"]] = relationship(back_populates="usuario")
 
 class Empresa(Base):
     __tablename__ = "empresas"
@@ -37,7 +39,19 @@ class Empleo(Base):
     empresa_id: Mapped[int] = mapped_column(ForeignKey("empresas.id"))
     empresa: Mapped["Empresa"] = relationship(back_populates="empleos")
     habilidades: Mapped[str] = mapped_column(Text)
+    aplicaciones: Mapped[list["ApplicationAEmpleo"]] = relationship(back_populates="empleo")
 
+
+class ApplicationAEmpleo(Base):
+    __tablename__ = "aplicaciones_empleo"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id"))
+    empleo_id: Mapped[int] = mapped_column(ForeignKey("empleos.id"))
+    fecha_aplicacion: Mapped[datetime] = mapped_column(default=datetime.now)
+    estado: Mapped[str] = mapped_column(String(50), default="pendiente")
+    usuario: Mapped["Usuario"] = relationship(back_populates="aplicaciones")
+    empleo: Mapped["Empleo"] = relationship(back_populates="aplicaciones")
 # #
 # class Publicacion(Base):
 #     __tablename__ = "publicaciones"

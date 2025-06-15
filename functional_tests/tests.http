@@ -54,6 +54,21 @@ GET http://0.0.0.0:8000/usecase/one
 ### Usecase 2. ¿Qué habilidades son más solicitadas en las ofertas de trabajo publicadas?
 GET http://127.0.0.1:8000/usecase/two
 
+### Usecase 3. ¿Qué empresas están contratando más activamente en LinkedIn?
+GET http://127.0.0.1:8000/usecase/three
+
+
+### Usecase 4. ¿Cuántas recomendaciones ha recibido un usuario específico?
+GET http://127.0.0.1:8000/usecase/four
+
+
+### Usecase 5. ¿Cuál es el crecimiento de usuarios en cada región geográfica?
+GET http://127.0.0.1:8000/usecase/five
+
+
+### Usecase 6. ¿Que usuarios tienen más de 500 conexiones Y tienen al menos 10 amigos en comun?
+GET http://127.0.0.1:8000/usecase/six
+
 
 ### Usecase 7. ¿Qué habilidades son solicitadas en ofertas de trabajo en tecnología O marketing?
 GET http://127.0.0.1:8000/usecase/seven
