@@ -13,9 +13,10 @@ Content-Type: application/json
 
 {
   "nombre": "Alan",
-  "email": "alan.tet@gmail.com",
+  "email": "alan.ejemplo@gmail.com",
   "foto_perfil": "image_url",
-  "telefono": "1234567890"
+  "telefono": "1234567890",
+  "country": "Argentina"
 }
 
 ### Get All Users

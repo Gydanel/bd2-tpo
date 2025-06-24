@@ -27,7 +27,8 @@ async def read_users(
 async def create_user(
         user: schemas.UserCreate,
         mysqldb: Session = Depends(dependencies.get_mysql_db),
-        users_collection: AsyncIOMotorCollection = Depends(mongo.users)
+        users_collection: AsyncIOMotorCollection = Depends(mongo.users),
+        neo: neo4j.Driver = Depends(dependencies.get_neo4j_db)
 ):
     # Check for existing email
     existing = mysqldb.query(models.Usuario).filter(models.Usuario.email == user.email).first()
@@ -48,11 +49,16 @@ async def create_user(
     mysqldb.refresh(new_user)
     await users_collection.insert_one(
         {
-            "_id": user.id,
-            "fecha_registro": user.fecha_registro,
-            "region": user.country,
+            "_id": new_user.id,
+            "fecha_registro": new_user.fecha_registro,
+            "region": new_user.country,
         }
     )
+    with neo.session() as session:
+        session.run("""
+                MERGE (u:Usuario {id: $id, nombre: $nombre });
+            """, id=new_user.id, nombre=new_user.nombre)
+
     return new_user
 
 
@@ -111,7 +117,7 @@ async def create_job(
         jobs_collection: AsyncIOMotorCollection = Depends(mongo.jobs)
 ):
 
-    new_empresa=models.Empleo(
+    new_empleo=models.Empleo(
         titulo=empleo.titulo,
         descripcion=empleo.descripcion,
         ubicacion=empleo.ubicacion,
@@ -119,20 +125,20 @@ async def create_job(
         habilidades=','.join(empleo.habilidades),
         empresa_id=empresaId,
     )
-    mysqldb.add(new_empresa)
+    mysqldb.add(new_empleo)
     mysqldb.commit()
-    mysqldb.refresh(new_empresa)
+    mysqldb.refresh(new_empleo)
     await jobs_collection.insert_one(
         {
-            "_id": new_empresa.id,
+            "_id": new_empleo.id,
             "empresa": {
-                "nombre": new_empresa.empresa.nombre
+                "nombre": new_empleo.empresa.nombre
             },
-            "categoria": new_empresa.categoria,
-            "habilidades": new_empresa.habilidades.split(',')
+            "categoria": new_empleo.categoria,
+            "habilidades": new_empleo.habilidades.split(',')
         }
     )
-    return new_empresa
+    return new_empleo
 
 @router.get("/usecase/one")
 async def total_registered_users_by_year(
