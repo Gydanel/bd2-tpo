@@ -9,6 +9,7 @@ class UserCreate(BaseModel):
     email: str
     foto_perfil: Optional[str]
     telefono: Optional[str]
+    country: str
 
 class EmpresaCreate(BaseModel):
     nombre: str

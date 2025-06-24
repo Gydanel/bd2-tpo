@@ -40,6 +40,8 @@ async def create_user(
         email = user.email,
         foto_perfil = user.foto_perfil,
         telefono = user.telefono,
+        fecha_registro = datetime.now(),
+        country=user.country
     )
     mysqldb.add(new_user)
     mysqldb.commit()
@@ -47,7 +49,8 @@ async def create_user(
     await users_collection.insert_one(
         {
             "_id": user.id,
-            "fecha_registro": user.fecha_registro
+            "fecha_registro": user.fecha_registro,
+            "region": user.country,
         }
     )
     return new_user
@@ -119,9 +122,16 @@ async def create_job(
     mysqldb.add(new_empresa)
     mysqldb.commit()
     mysqldb.refresh(new_empresa)
-    # await jobs_collection.insert_one(
-    #     schemas.UserDocument(user_id=new_job.id, registered_date=new_job.fecha_registro).model_dump()
-    # )
+    await jobs_collection.insert_one(
+        {
+            "_id": new_empresa.id,
+            "empresa": {
+                "nombre": new_empresa.empresa.nombre
+            },
+            "categoria": new_empresa.categoria,
+            "habilidades": new_empresa.habilidades.split(',')
+        }
+    )
     return new_empresa
 
 @router.get("/usecase/one")
